@@ -15,7 +15,7 @@ def find_goal_anketes(anketes: list[str]) -> list[str]:
     result = list()
     for ank in anketes:
         if (re.search(r"Имя:\sА\w*\n"
-                      r"Пол:\s(?:Ж|ж|женский|Женский)", ank) is not None):
+                      r"Пол:\s(?:ж|женский)\b", ank, flags=re.I) is not None):
             ank = re.sub(r"^\n", "", ank)
             result += [ank]
     return result
