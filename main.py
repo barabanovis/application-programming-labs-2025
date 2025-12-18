@@ -1,20 +1,18 @@
 from icrawler.builtin import GoogleImageCrawler
 
-import user_ask
+import user_ask as ua
 
 
 def main() -> None:
-    google_crawler = GoogleImageCrawler(
-        feeder_threads=1,
-        parser_threads=1,
-        downloader_threads=4,
-        storage={'root_dir': 'images'},
-        api_key='ВАШ_API_КЛЮЧ',  # ← замените на ваш ключ
-        search_engine_id='ВАШ_SEARCH_ENGINE_ID'  # ← замените на ID движка
-    )
-    filters = dict(date=((2017, 1, 1), (2017, 11, 30)))
-    flickr_crawler = GoogleImageCrawler(storage={'root_dir': 'images'})
-    flickr_crawler.crawl(keyword='bear', max_num=10)
+    periods = ua.ask_info()
+    for i in range(len(periods)):
+        google_crawler = GoogleImageCrawler(
+            storage={'root_dir': 'results/'+str(i)},
+            api_key='ВАШ_API_КЛЮЧ',
+            cse_id='32d119033722e4c0d'
+            )
+        filters = dict(date=(periods[i].first_date, periods[i].second_date))
+        google_crawler.crawl(keyword='bear', filters=filters)
 
 
 if __name__ == "__main__":
