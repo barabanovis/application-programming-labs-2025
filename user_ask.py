@@ -15,7 +15,7 @@ def ask_date(none) -> dt.date:
     day, mounth, year = list(map(int, s.split('.')))
     while True:
         try:
-            res = Date(day, mounth, year)
+            res = dt.date(day=day, mounth=mounth, year=year)
             return res
         except ValueError:
             print("Неправильный формат даты. Попробуйте ещё раз.")
@@ -28,6 +28,6 @@ def ask_info(none) -> list[DI.DateInterval]:
     for i in range(n):
         first_date = ask_date()
         second_date = ask_date()
-        tmp = DateInterval(first_date, second_date)
+        tmp = DI.DateInterval(first_date, second_date)
         periods += tmp
     return periods
