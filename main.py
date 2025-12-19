@@ -1,7 +1,6 @@
 import argparse
 import cv2
 import matplotlib.pyplot as plt
-import os
 
 
 def argument_parsing() -> list[str]:
