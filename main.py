@@ -16,8 +16,9 @@ def argument_parsing() -> list[str]:
 
 
 def main() -> None:
-    image1 = cv2.imread('000001.jpg')
-    image2 = cv2.imread('bear.jpg')
+    args = argument_parsing()
+    image1 = cv2.imread(args[0])
+    image2 = cv2.imread(args[1])
 
     if (image1 is None):
         print('Error reading image1')
@@ -35,7 +36,7 @@ def main() -> None:
 
     image3 = cv2.addWeighted(image1, 1.0, image2, 0.5, 0)
 
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    fig, axes = plt.subplots(1, 3, figsize=(25, 5))
 
     axes[0].imshow(cv2.cvtColor(image1, cv2.COLOR_BGR2RGB))
     axes[0].set_title('Image 1')
@@ -51,9 +52,7 @@ def main() -> None:
 
     plt.show()
 
-    cv2.imwrite('result.jpg', image3)
-
-    
+    cv2.imwrite(args[2], image3)
 
 
 if __name__ == '__main__':
