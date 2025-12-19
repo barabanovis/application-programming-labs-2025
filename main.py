@@ -29,7 +29,6 @@ def argument_parsing() -> list[str]:
 # Диапазоны размеров!
 
 def main() -> None:
-    '''
     argparse = argument_parsing()
     res_path = argparse[0]
     ann_path = argparse[1]
@@ -45,12 +44,12 @@ def main() -> None:
 
     for interv in intervals:
         bing_crawler = BingImageCrawler(storage={
-                                        'root_dir': 'results/larger than ' + str(interv.min_width)+' '+str(interv.min_height)})
+                                        'root_dir': res_path+'/larger than ' + str(interv.min_width)+' '+str(interv.min_height)})
         filters = dict(size=str('>'+interv.min_width+'x'+interv.min_height))
         bing_crawler.crawl(keyword='bear', filters=filters,
                            offset=0, max_num=num_for_each)
-    '''
-    annotation.create_annotation_csv('results', 'results.csv')
+
+    annotation.create_annotation_csv('results', ann_path)
 
 
 if __name__ == "__main__":

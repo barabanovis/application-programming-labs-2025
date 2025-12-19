@@ -2,14 +2,7 @@ import os
 import csv
 
 
-class FileIterator:
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-
-
-def create_annotation_csv(root_dir, output_csv):
+def create_annotation_csv(root_dir, output_csv, base_dir=None):
     """
     Создаёт CSV с абсолютными и относительными путями к файлам.
 
@@ -21,3 +14,9 @@ def create_annotation_csv(root_dir, output_csv):
 
     with open(output_csv, 'w+', encoding='utf-8') as file:
         writer = csv.writer(file)
+
+        for dirpath, dirnames, filenames in os.walk(root_dir):
+            for filename in filenames:
+                absolute_path = os.path.join(dirpath, filename)
+                relative_path = os.path.relpath(absolute_path, base_dir)
+                writer.writerow([absolute_path, relative_path])
