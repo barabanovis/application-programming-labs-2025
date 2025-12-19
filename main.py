@@ -16,14 +16,14 @@ def argument_parsing() -> list[str]:
     Разделение аргументов, введённых пользователем в консоли
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('save_path', type=str, help='path to save photo')
-    parser.add_argument('annotation_path', type=str,
+    parser.add_argument('sp', type=str, help='path to save photo')
+    parser.add_argument('ap', type=str,
                         help='path to save annotation')
-    parser.add_argument('number_of_photo_for_each', type=int,
+    parser.add_argument('nfe', type=int,
                         help='how many photo download to each period?')
-    parser.add_argument('intervals', nargs='+', type=str)
+    parser.add_argument('ints', nargs='+', type=str)
     args = parser.parse_args()
-    return [args.save_path, args.annotation_path, args.number_of_photo_for_each, args.intervals]
+    return [args.sp, args.ap, args.nfe, args.ints]
 
 
 # Диапазоны размеров!
