@@ -33,8 +33,14 @@ def main() -> None:
 
     if image1.shape != image2.shape:
         image2.resize(image2, (image1.shape[0], image1.shape[1]))
-    # Addition by 'plus'
-    
+
+    image3 = cv2.addWeighted(image1, 1.0, image2, 0.5, 0)
+
+    cv2.imshow('Mixed Image (OpenCV)', image3)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    cv2.imwrite('result.jpg', image3)
 
 
 if __name__ == '__main__':
