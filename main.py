@@ -1,6 +1,7 @@
 import argparse
 import pandas as pd
 import cv2
+import matplotlib.pyplot as plt
 
 
 def argument_parsing() -> list[str]:
@@ -8,9 +9,10 @@ def argument_parsing() -> list[str]:
     Разделение аргументов, введённых пользователем в консоли
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('save_path', type=str, help='path to save table')
+    parser.add_argument('table_path', type=str, help='path to save table')
+    parser.add_argument('gist_path', type=str, help='path to save diagram')
     args = parser.parse_args()
-    return [args.save_path]
+    return [args.table_path, args.gist_path]
 
 
 def which_orientation(path_to_image: str) -> str:
@@ -31,10 +33,30 @@ def which_orientation(path_to_image: str) -> str:
 
 
 def sort_by_orientation(df: pd.DataFrame) -> pd.DataFrame:
+    '''
+    Сортирует датафрейм по столцу "ориентация"
+    '''
     return df.sort_values(by='orientation')
 
 
+def draw_gistagram(df: pd.DataFrame, save_path: str):
+    '''
+    Рисует диаграмму распределения "ориентации" среди всех изображений и рисует диаграмму
+    '''
+    data = df['orientation']
+    plt.hist(data, bins=30, edgecolor='black')
+    plt.xlabel('Orientation')
+    plt.ylabel('Count')
+    plt.title('Distribution of orientations')
+    plt.savefig(save_path)
+    plt.show()
+
+
 def main():
+    args = argument_parsing()
+    table_path = args[0]
+    gist_path = args[1]
+
     print('PURE DATAFRAME')
     df = pd.read_csv('results.csv', names=['ABSOLUTE PATH', 'RELATIVE PATH'])
     print(df)
@@ -43,13 +65,17 @@ def main():
     print('DATAFRAME with \'orientation\' column')
     print(df)
 
-    new_df = sort_by_orientation(df)
+    df = sort_by_orientation(df)
     print('DATAFRAME SORTED BY \'orientation\'')
-    print(new_df)
-    
+    print(df)
+
     print('DATAFRAME FILTERED BY \'orientation\' == \'horizontal\'')
     df2 = df[df['orientation'] == 'horizontal']
     print(df2)
+
+    draw_gistagram(df, gist_path)
+
+    df.to_csv(table_path, index=False)
 
 
 if __name__ == '__main__':
