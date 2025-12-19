@@ -36,11 +36,25 @@ def main() -> None:
 
     image3 = cv2.addWeighted(image1, 1.0, image2, 0.5, 0)
 
-    cv2.imshow('Mixed Image (OpenCV)', image3)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+
+    axes[0].imshow(cv2.cvtColor(image1, cv2.COLOR_BGR2RGB))
+    axes[0].set_title('Image 1')
+    axes[0].axis('off')
+
+    axes[1].imshow(cv2.cvtColor(image2, cv2.COLOR_BGR2RGB))
+    axes[1].set_title('Image 2')
+    axes[1].axis('off')
+
+    axes[2].imshow(cv2.cvtColor(image3, cv2.COLOR_BGR2RGB))
+    axes[2].set_title('Mixed Image')
+    axes[2].axis('off')
+
+    plt.show()
 
     cv2.imwrite('result.jpg', image3)
+
+    
 
 
 if __name__ == '__main__':
