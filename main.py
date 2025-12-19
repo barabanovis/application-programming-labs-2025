@@ -28,10 +28,13 @@ def main() -> None:
         print('Error reading image2')
         raise ValueError
 
-    print('Shape of image 1: ', image1.shape())
-    print('Shape of image 2: ', image2.shape())
+    print('Shape of image 1: ', image1.shape)
+    print('Shape of image 2: ', image2.shape)
 
+    if image1.shape != image2.shape:
+        image2.resize(image2, (image1.shape[0], image1.shape[1]))
     # Addition by 'plus'
+    
 
 
 if __name__ == '__main__':
