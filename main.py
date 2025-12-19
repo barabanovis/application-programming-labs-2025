@@ -12,11 +12,27 @@ def argument_parsing() -> list[str]:
     parser.add_argument('image1_path', type=str)
     parser.add_argument('image2_path', type=str)
     parser.add_argument('save_path', type=str)
-    return [parser.image1_path, parser.image2_path, parser.save_path]
+    args = parser.parse_args()
+    return [args.image1_path, args.image2_path, args.save_path]
 
 
 def main() -> None:
-    args=argument_parsing()
+    image1 = cv2.imread('000001.jpg')
+    image2 = cv2.imread('bear.jpg')
+
+    if (image1 is None):
+        print('Error reading image1')
+        raise ValueError
+
+    if (image2 is None):
+        print('Error reading image2')
+        raise ValueError
+
+    print('Shape of image 1: ', image1.shape())
+    print('Shape of image 2: ', image2.shape())
+
+    # Addition by 'plus'
+
 
 if __name__ == '__main__':
     main()

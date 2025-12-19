@@ -1,4 +1,4 @@
-name: Подготовка PR к ревью
+name: Setup PR for code review
 
 on:
   pull_request_target:
@@ -10,7 +10,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - name: Анализ заголовка PR для определения группы и номера лабораторной работы
+      - name: Parsing your PR title for lab number
         env:
           TITLE: ${{ github.event.pull_request.title }}
         run: |
@@ -18,7 +18,7 @@ jobs:
           for VAR in 1 2 3 4 5
           do
             if echo "$TITLE" | grep -iqE "$SUB *$VAR"; then
-                echo "LABEL=LAB $VAR" >> "$GITHUB_ENV"
+                echo "LABEL=Lab $VAR" >> "$GITHUB_ENV"
                 break
             fi
           done
@@ -30,23 +30,23 @@ jobs:
               fi      
           done
 
-      - name: Проверка номера лабораторной работы
+      - name: Checking your lab number
         run: |
           if [[ -z $LABEL ]]; then
-              echo "Ошибка: Не удалось определить номер лабораторной работы из заголовка PR."
+              echo "ERROR: Unable to determine the lab number from the PR title."
               exit 1
           fi
-          echo "Успех: Номер лабораторной работы распознан корректно - $LABEL"
+          echo "SUCCESS: Lab number was parsed correctly - $LABEL"
 
-      - name: Проверка номера группы
+      - name: Checking your group number
         run: |
           if [[ -z $GROUP ]]; then
-              echo "Ошибка: Не удалось определить номер группы из заголовка PR"
+              echo "ERROR: Unable to determine the group number from the PR title."
               exit 1
           fi
-          echo "Успех: Номер группы распознан корректно - $GROUP"
+          echo "SUCCESS: Group number was parsed correctly - $GROUP"
 
-      - name: Удаление всех меток
+      - name: Remove all labels
         if: github.event.action == 'reopened'
         uses: actions/github-script@v8
         with:
@@ -60,42 +60,42 @@ jobs:
               });
             } catch (e) {
               if (e.status === 404) {
-                core.info('Меток для удаления не найдено');
+                core.info('No labels to remove.');
               } else {
                 throw e;
               }
             }
 
-      - name: Установка меток PR
+      - name: Setting PR labels
         uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: |
             ${{ env.LABEL }}
             ${{ env.GROUP }}
-            IN PROGRESS
+            In progress
 
-      - name: Назначение ревьювера
+      - name: Setting reviewer
         if: env.GROUP == '6211'
         uses: AveryCameronUofR/add-reviewer-gh-action@1.0.3
         with:
           reviewers: "microalan"
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Назначение ревьювера
+      - name: Setting reviewer
         if: env.GROUP == '6212'
         uses: AveryCameronUofR/add-reviewer-gh-action@1.0.3
         with:
           reviewers: "IlyaOv"
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Назначение ревьювера
+      - name: Setting reviewer
         if: env.GROUP == '6213'
         uses: AveryCameronUofR/add-reviewer-gh-action@1.0.3
         with:
           reviewers: "vfkon"
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Назначение ревьювера
+      - name: Setting reviewer
         if: env.GROUP == '6214'
         uses: AveryCameronUofR/add-reviewer-gh-action@1.0.3
         with:
