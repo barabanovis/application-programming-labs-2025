@@ -55,6 +55,11 @@ def main() -> None:
     for line in iterator.FileIterator(ann_path):
         print(line)
 
+'''
+Пример запуска:
+python main.py result3034 new_annotation.csv 2 3 3
+'''
+
 
 if __name__ == "__main__":
     main()
