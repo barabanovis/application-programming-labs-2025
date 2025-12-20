@@ -1,6 +1,8 @@
 class FileIterator:
     def __init__(self, annotation_file):
         with open(annotation_file, 'r') as csv_file:
+            if annotation_file is None:
+                raise ValueError
             self.data = csv_file.readlines()
             self.ind = 0
             self.length = len(self.data)
