@@ -1,25 +1,41 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
-from PyQt6.QtCore import QSize
-from PyQt6 import uic
+from PyQt6.QtWidgets import QApplication, QPushButton, QVBoxLayout, QLabel, QWidget
+from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtGui import QPixmap
+from iterator import FileIterator
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QWidget):
     def __init__(self):
+        self.iter = FileIterator('results.csv')
+
         super().__init__()
-        self.setWindowTitle("My App")
 
+        self.setWindowTitle("My Application")
+        self.resize(400, 300)
 
-        self.label = QLabel()
-        self.button = QPushButton()
+        layout = QVBoxLayout()
+        self.image_label = QLabel()
+        layout.addWidget(self.image_label, 1)
+        self.button = QPushButton("Next Image")
+        self.button.clicked.connect(self.on_button_click)
+        layout.addWidget(self.button, 0)
 
-        self.button.clicked.connect(self.button_click)
+        self.setLayout(layout)
 
-        def button_click(self):
-            
+    def on_button_click(self):
+        try:
+            path = self.iter.__next__()
+        except StopIteration:
+            self.image_label.setText("You listed all images")
 
-    def button_toggle(self, checked):
-        self.button_cheched = checked
-        print(self.button_cheched)
+        pixmap = QPixmap(path)
+
+        if pixmap.isNull():
+            self.image_label.setText("Image not found!")
+        else:
+            self.image_label.setPixmap(pixmap)
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
 
 
 if __name__ == '__main__':
