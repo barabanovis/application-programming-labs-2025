@@ -10,9 +10,8 @@ class FileIterator:
 
     def __next__(self):
         if (self.ind < self.length):
-            line = self.data[self.ind]
-            if line[-1] == '\n':
-                line = line[:-1]
+            # Нужно вернуть только абсолютный путь для чтения картинки приложением
+            line, trash = self.data[self.ind].split(',')
             self.ind += 1
             return line
         else:
