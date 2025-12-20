@@ -14,7 +14,7 @@ class FileIterator:
         if (self.ind < self.length):
             # Нужно вернуть только абсолютный путь для чтения картинки приложением
             line, trash = self.data[self.ind].split(',')
-            self.ind += 1
+            self.ind += 2
             return line
         else:
             raise StopIteration

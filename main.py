@@ -5,6 +5,7 @@ from icrawler.builtin import BingImageCrawler
 import annotation
 import iterator
 
+
 class SizeInterval:
     def __init__(self, min_width: int, min_height: int):
         self.min_width = min_width
@@ -34,7 +35,7 @@ def main() -> None:
     ann_path = argparse[1]
     num_for_each = argparse[2]
     data = argparse[3]
-    '''
+    
     if (len(data) % 2 != 0):
         raise ValueError
     intervals = list()
@@ -47,11 +48,11 @@ def main() -> None:
         filters = dict(size=str('>'+interv.min_width+'x'+interv.min_height))
         bing_crawler.crawl(keyword='bear', filters=filters,
                            offset=0, max_num=num_for_each)
+    
+    annotation.create_annotation_csv(res_path, ann_path)
 
-    annotation.create_annotation_csv('results', ann_path)
-    '''
     print('Iterator demonstration')
-    for line in iterator.FileIterator(ann_path+'\\results.csv'):
+    for line in iterator.FileIterator(ann_path):
         print(line)
 
 
