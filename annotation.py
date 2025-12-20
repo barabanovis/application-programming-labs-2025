@@ -5,9 +5,6 @@ import csv
 def create_annotation_csv(root_dir, output_csv, base_dir=None):
     """
     Создаёт CSV с абсолютными и относительными путями к файлам.
-
-    root_dir: папка, в которой ищем файлы
-    output_csv: путь к выходному CSV-файлу
     """
     if base_dir is None:
         base_dir = root_dir
