@@ -35,7 +35,7 @@ def main() -> None:
         image2.resize(image2, (image1.shape[0], image1.shape[1]))
 
     image3 = cv2.addWeighted(image1, 1.0, image2, 0.5, 0)
-
+    
     fig, axes = plt.subplots(1, 3, figsize=(25, 5))
 
     axes[0].imshow(cv2.cvtColor(image1, cv2.COLOR_BGR2RGB))
