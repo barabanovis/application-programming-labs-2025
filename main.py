@@ -9,10 +9,11 @@ def argument_parsing() -> list[str]:
     Разделение аргументов, введённых пользователем в консоли
     """
     parser = argparse.ArgumentParser()
+    parser.add_argument('ann_path', type=str, help='path to annotation')
     parser.add_argument('table_path', type=str, help='path to save table')
     parser.add_argument('gist_path', type=str, help='path to save diagram')
     args = parser.parse_args()
-    return [args.table_path, args.gist_path]
+    return [args.ann_path, args.table_path, args.gist_path]
 
 
 def which_orientation(path_to_image: str) -> str:
@@ -54,11 +55,12 @@ def draw_gistagram(df: pd.DataFrame, save_path: str):
 
 def main():
     args = argument_parsing()
-    table_path = args[0]
-    gist_path = args[1]
+    ann_path = args[0]
+    table_path = args[1]
+    gist_path = args[2]
 
     print('PURE DATAFRAME')
-    df = pd.read_csv('results.csv', names=['ABSOLUTE PATH', 'RELATIVE PATH'])
+    df = pd.read_csv(ann_path, names=['ABSOLUTE PATH', 'RELATIVE PATH'])
     print(df)
 
     df['orientation'] = df['ABSOLUTE PATH'].apply(which_orientation)
@@ -77,6 +79,11 @@ def main():
 
     df.to_csv(table_path, index=False)
 
+
+'''
+Пример запуска:
+python main.py results.csv dataframe.csv gist.jpg
+'''
 
 if __name__ == '__main__':
     main()
