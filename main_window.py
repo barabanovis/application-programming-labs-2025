@@ -1,6 +1,6 @@
 import argparse
 
-from PyQt6.QtWidgets import QApplication, QPushButton, QVBoxLayout, QLabel, QWidget
+from PyQt6.QtWidgets import QApplication, QPushButton, QVBoxLayout, QLabel, QWidget, QFileDialog
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 
@@ -19,12 +19,10 @@ def argument_parsing() -> list[str]:
 
 
 class MainWindow(QWidget):
-    def set_annot_path(self, path):
-        self.annot_path = path
+    def set_annotation(self, path):
+        self.iter = FileIterator(path)
 
     def __init__(self):
-        self.iter = FileIterator('results.csv')
-
         super().__init__()
 
         self.setWindowTitle("My Application")
@@ -57,13 +55,12 @@ class MainWindow(QWidget):
 
 
 if __name__ == '__main__':
-    args = argument_parsing()
-    annot_path = args[0]
-
+    
     app = QApplication([])
-
+    
     window = MainWindow()
-    window.set_annot_path(annot_path)
+    annot_path, filter = QFileDialog.getOpenFileName()
+    window.set_annotation(annot_path)
     window.show()
 
     app.exec()
