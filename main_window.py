@@ -31,9 +31,14 @@ class MainWindow(QWidget):
         layout = QVBoxLayout()
         self.image_label = QLabel()
         layout.addWidget(self.image_label, 1)
-        self.button = QPushButton("Next Image")
-        self.button.clicked.connect(self.on_button_click)
-        layout.addWidget(self.button, 0)
+        self.next_button = QPushButton("Next Image")
+        self.next_button.clicked.connect(self.on_button_click)
+
+        self.choice_button = QPushButton("Choice annotation file")
+        self.choice_button.clicked.connect(self.choice_annotation)
+
+        layout.addWidget(self.next_button, 0)
+        layout.addWidget(self.choice_button, 0)
 
         self.setLayout(layout)
 
@@ -53,11 +58,15 @@ class MainWindow(QWidget):
             Qt.AspectRatioMode.KeepAspectRatio,
             Qt.TransformationMode.SmoothTransformation
 
+    def choice_annotation(self):
+        annot_path, filter = QFileDialog.getOpenFileName()
+        self.iter = FileIterator(annot_path)
+
 
 if __name__ == '__main__':
-    
+
     app = QApplication([])
-    
+
     window = MainWindow()
     annot_path, filter = QFileDialog.getOpenFileName()
     window.set_annotation(annot_path)
